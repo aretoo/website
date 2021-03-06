@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_135113) do
-
+ActiveRecord::Schema.define(version: 20_210_222_135_113) do
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.string "name", null: false
@@ -38,7 +37,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "user_id"], name: "index_exercise_authorships_on_exercise_id_and_user_id", unique: true
+    t.index %w[exercise_id user_id], name: "index_exercise_authorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_authorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_authorships_on_user_id"
   end
@@ -48,7 +47,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "user_id"], name: "index_exercise_contributorships_on_exercise_id_and_user_id", unique: true
+    t.index %w[exercise_id user_id], name: "index_exercise_contributorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_contributorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_contributorships_on_user_id"
   end
@@ -58,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.bigint "track_concept_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
+    t.index %w[exercise_id track_concept_id], name: "uniq", unique: true
     t.index ["exercise_id"], name: "index_exercise_prerequisites_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_prerequisites_on_track_concept_id"
   end
@@ -76,7 +75,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
+    t.index %w[exercise_id ast_digest], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
@@ -88,7 +87,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.bigint "track_concept_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
+    t.index %w[exercise_id track_concept_id], name: "uniq", unique: true
     t.index ["exercise_id"], name: "index_exercise_taught_concepts_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_taught_concepts_on_track_concept_id"
   end
@@ -104,7 +103,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.boolean "deprecated", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
+    t.index %w[track_id uuid], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
   end
@@ -115,9 +114,10 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.string "sluggable_type", limit: 50
     t.string "scope"
     t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+    t.index %w[slug sluggable_type scope], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope",
+                                           unique: true, length: { slug: 70, scope: 70 }
+    t.index %w[slug sluggable_type], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
+    t.index %w[sluggable_type sluggable_id], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.integer "num_discussions", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["mentor_id", "student_id"], name: "index_mentor_student_relationships_on_mentor_id_and_student_id", unique: true
+    t.index %w[mentor_id student_id], name: "index_mentor_student_relationships_on_mentor_id_and_student_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_student_relationships_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_student_relationships_on_student_id"
   end
@@ -165,11 +165,12 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.text "content_html", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"
+    t.index %w[about_type about_id], name: "index_scratchpad_pages_on_about"
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
   end
 
-  create_table "solution_mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "solution_mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci",
+                                                   force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "discussion_id", null: false
     t.bigint "iteration_id", null: false
@@ -228,7 +229,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
-    t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
+    t.index %w[user_id exercise_id], name: "index_solutions_on_user_id_and_exercise_id", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
   end
@@ -325,7 +326,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["badge_id"], name: "index_user_acquired_badges_on_badge_id"
-    t.index ["user_id", "badge_id"], name: "index_user_acquired_badges_on_user_id_and_badge_id", unique: true
+    t.index %w[user_id badge_id], name: "index_user_acquired_badges_on_user_id_and_badge_id", unique: true
     t.index ["user_id"], name: "index_user_acquired_badges_on_user_id"
     t.index ["uuid"], name: "index_user_acquired_badges_on_uuid", unique: true
   end
@@ -413,7 +414,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
-    t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
+    t.index %w[uniqueness_key user_id], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
   end
 
@@ -432,7 +433,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
-    t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
+    t.index %w[user_id track_id], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
   end
 
@@ -443,7 +444,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
-    t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
+    t.index %w[user_id track_id], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
   end
 
@@ -472,7 +473,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_135113) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
-    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index %w[provider uid], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
